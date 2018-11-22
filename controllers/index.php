@@ -1,13 +1,21 @@
 <?php
-require ("../entities/Client.php");
-require ("../entities/Produit.php");
 
-//Instance of new Client
-$my_client = new Client("Toto", 56);
-$my_product  = new Produit("Voiture");
+require '../entities/Personnage.php';
+require '../model/PersonnagesManager.php';
 
-$my_client->addProductToBasket($my_product);
+$perso = new Personnage([
+  'nom' => 'Victor',
+  'forcePerso' => 5,
+  'degats' => 0,
+  'niveau' => 1,
+  'experience' => 1
+]);
 
+$db = new PDO('mysql:host=localhost;dbname=mini_jeu_combat', 'root', 'Strawberry591peaches', [PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING]);
+$manager = new PersonnagesManager($db);
+
+$manager->add($perso);
 
 include "../views/indexVue.php";
+
  ?>
