@@ -1,5 +1,5 @@
 <?php
-class PersonnagesManager
+class CharacterManager
 {
   private $_db; // Instance de PDO
 
@@ -8,57 +8,51 @@ class PersonnagesManager
     $this->setDb($db);
   }
 
-  public function add(Personnage $perso)
+  public function add(Character $character)
   {
-    $q = $this->_db->prepare('INSERT INTO persos(nom, forcePerso, degats, niveau, experience) VALUES(:nom, :forcePerso, :degats, :niveau, :experience)');
+    $q = $this->_db->prepare('INSERT INTO characters(name, damages) VALUES(:name, :damages)');
 
-    $q->bindValue(':nom', $perso->nom());
-    $q->bindValue(':forcePerso', $perso->forcePerso(), PDO::PARAM_INT);
-    $q->bindValue(':degats', $perso->degats(), PDO::PARAM_INT);
-    $q->bindValue(':niveau', $perso->niveau(), PDO::PARAM_INT);
-    $q->bindValue(':experience', $perso->experience(), PDO::PARAM_INT);
+    $q->bindValue(':name', $character->getName());
+    $q->bindValue(':damages', $character->getDamages(), PDO::PARAM_INT);
 
     $q->execute();
   }
 
-  public function delete(Personnage $perso)
+  public function delete(Character $character)
   {
-    $this->_db->exec('DELETE FROM persos WHERE id = '.$perso->id());
+    $this->_db->exec('DELETE FROM characters WHERE id = '.$character->id());
   }
 
   public function get($id)
   {
     $id = (int) $id;
 
-    $q = $this->_db->query('SELECT id, nom, forcePerso, degats, niveau, experience FROM persos WHERE id = '.$id);
-    $donnees = $q->fetch(PDO::FETCH_ASSOC);
+    $q = $this->_db->query('SELECT id, name, damages FROM characters WHERE id = '.$id);
+    $data = $q->fetch(PDO::FETCH_ASSOC);
 
-    return new Personnage($donnees);
+    return new Character($data);
   }
 
   public function getList()
   {
-    $persos = [];
+    $characters = [];
 
-    $q = $this->_db->query('SELECT id, nom, forcePerso, degats, niveau, experience FROM persos ORDER BY nom');
+    $q = $this->_db->query('SELECT id, name, damages FROM characters ORDER BY name');
 
-    while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
+    while ($data = $q->fetch(PDO::FETCH_ASSOC))
     {
-      $persos[] = new Personnage($donnees);
+      $characters[] = new Character($data);
     }
 
-    return $persos;
+    return $characters;
   }
 
-  public function update(Personnage $perso)
+  public function update(Character $character)
   {
-    $q = $this->_db->prepare('UPDATE persos SET forcePerso = :forcePerso, degats = :degats, niveau = :niveau, experience = :experience WHERE id = :id');
+    $q = $this->_db->prepare('UPDATE characters SET damages = :damages WHERE id = :id');
 
-    $q->bindValue(':forcePerso', $perso->forcePerso(), PDO::PARAM_INT);
-    $q->bindValue(':degats', $perso->degats(), PDO::PARAM_INT);
-    $q->bindValue(':niveau', $perso->niveau(), PDO::PARAM_INT);
-    $q->bindValue(':experience', $perso->experience(), PDO::PARAM_INT);
-    $q->bindValue(':id', $perso->id(), PDO::PARAM_INT);
+    $q->bindValue(':damages', $character->getDamages(), PDO::PARAM_INT);
+    $q->bindValue(':id', $character->getId(), PDO::PARAM_INT);
 
     $q->execute();
   }

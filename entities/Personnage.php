@@ -1,21 +1,20 @@
 <?php
 
-class Personnage {
+class Character {
 
   private $_id;
-  private $_nom;
-  private $_forcePerso;
-  private $_degats;
-  private $_niveau;
-  private $_experience;
+  private $_name;
+  private $_damages;
+  
+ 
 
-  public function __construct(array $donnees)
+  public function __construct(array $data)
   {
-    $this->hydrate($donnees);
+    $this->hydrate($data);
   }
 
-  public function hydrate(array $donnees){
-    foreach ($donnees as $key => $value)
+  public function hydrate(array $data){
+    foreach ($data as $key => $value)
     {
       // On récupère le nom du setter correspondant à l'attribut.
       $method = 'set'.ucfirst($key);
@@ -32,33 +31,19 @@ class Personnage {
 
 //Getters list
 
-  public function id(){
+  public function getId(){
     return $this->_id;
   }
-  public function nom()
+  public function getName()
   {
-    return $this->_nom;
+    return $this->_name;
   }
   
-  public function forcePerso()
+  public function getDamages()
   {
-    return $this->_forcePerso;
+    return $this->_damages;
   }
   
-  public function degats()
-  {
-    return $this->_degats;
-  }
-  
-  public function niveau()
-  {
-    return $this->_niveau;
-  }
-  
-  public function experience()
-  {
-    return $this->_experience;
-  }
 
 //Setters list
 
@@ -71,53 +56,25 @@ class Personnage {
     }
   }
 
-  public function setNom($nom)
+  public function setName($name)
   {
-    if (is_string($nom))
+    if (is_string($name))
     {
-      $this->_nom = $nom;
+      $this->_name = $name;
     }
   }
   
-  public function setForcePerso($forcePerso)
-  {
-    $forcePerso = (int) $forcePerso;
-    
-    if ($forcePerso >= 1 && $forcePerso <= 100)
-    {
-      $this->_forcePerso = $forcePerso;
-    }
-  }
   
-  public function setDegats($degats)
+  public function setDamages($damages)
   {
-    $degats = (int) $degats;
+    $damages = (int) $damages;
     
-    if ($degats >= 0 && $degats <= 100)
+    if ($damages >= 0 && $damages <= 100)
     {
-      $this->_degats = $degats;
+      $this->_damages = $damages;
     }
   }
-  
-  public function setNiveau($niveau)
-  {
-    $niveau = (int) $niveau;
-    
-    if ($niveau >= 1 && $niveau <= 100)
-    {
-      $this->_niveau = $niveau;
-    }
-  }
-  
-  public function setExperience($experience)
-  {
-    $experience = (int) $experience;
-    
-    if ($experience >= 1 && $experience <= 100)
-    {
-      $this->_experience = $experience;
-    }
-  }
+
 
 }
 

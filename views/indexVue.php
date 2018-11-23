@@ -2,7 +2,7 @@
   include("template/header.php")
  ?>
 
-<p><?php echo $perso->nom(); ?></p>
+<p><?php echo $character->getName(); ?></p>
 
  <?php
    include("template/footer.php")
