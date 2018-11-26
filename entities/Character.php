@@ -5,13 +5,19 @@ class Character {
   private $_id;
   private $_name;
   private $_damages;
+
+  const ITS_MYSELF = 1;
+  const KILLED_CHAR = 2;
+  const HIT_CHAR = 3;
   
- 
+//Constructor
 
   public function __construct(array $data)
   {
     $this->hydrate($data);
   }
+
+//Hydrate
 
   public function hydrate(array $data){
     foreach ($data as $key => $value)
@@ -29,11 +35,42 @@ class Character {
   }
 
 
+//Methods
+
+  public function validName(){
+    return !empty($this->_name);
+  }
+
+  public function hit(Character $character){
+    if ($character->getId() == $this->_id)
+    {
+      return self::ITS_MYSELF;
+    }
+
+    return $character->takeDamages();
+
+  }
+
+  public function takeDamages(){
+
+    $this->_damages += 5;
+    
+    // If 100 damages taken or more, character is killed
+    if ($this->_damages >= 100)
+    {
+      return self::KILLED_CHAR;
+    }
+    
+    // Else, chara has been hitted
+    return self::HIT_CHAR;
+  }
+
 //Getters list
 
   public function getId(){
     return $this->_id;
   }
+
   public function getName()
   {
     return $this->_name;
@@ -74,8 +111,6 @@ class Character {
       $this->_damages = $damages;
     }
   }
-
-
 }
 
 ?>
