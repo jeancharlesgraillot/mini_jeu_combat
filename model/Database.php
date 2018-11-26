@@ -4,7 +4,7 @@ class Database {
     const HOST = "localhost",
           DBNAME = "mini_jeu_combat",
           LOGIN = "root",
-          PWD = "Strawberry591peaches";
+          PWD = "";
     
 
     static public function Db(){
