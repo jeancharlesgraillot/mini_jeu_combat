@@ -45,7 +45,7 @@ class CharacterManager
   {
     $characters = [];
 
-    $q = $this->_db->query('SELECT id, name, damages FROM characters ORDER BY name');
+    $q = $this->_db->query('SELECT id, name, damages FROM characters ORDER BY id DESC LIMIT 1, 99999999');
 
     while ($data = $q->fetch(PDO::FETCH_ASSOC))
     {

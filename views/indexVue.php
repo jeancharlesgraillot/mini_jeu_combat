@@ -6,28 +6,29 @@
 
 <?php
 
-if (isset($message)) // On a un message à afficher ?
-  echo '<p>', $message, '</p>'; // Si oui, on l'affiche.
-
-?>
-
-<?php
+if (isset($message)){
+  echo '<p>', $message, '</p>';
+} 
+  
 if (isset($character)) // Si on utilise un personnage (nouveau ou pas).
 {
 ?>
+    <p><a href="?deconnexion=1">Déconnexion</a></p>
+    
     <fieldset>
       <legend>Mes informations</legend>
       <p>
-        Nom : <?= htmlspecialchars($character->getName()) ?><br />
-        Dégâts : <?= $character->getDamages() ?>
+        Nom : <?php echo htmlspecialchars($character->getName()) ?><br />
+        Dégâts : <?php echo $character->getDamages() ?>
       </p>
     </fieldset>
     
     <fieldset>
       <legend>Qui frapper ?</legend>
+      
       <p>
 <?php
-$characters = $characterManager->getList($character->getName());
+      $characters = $characterManager->getList($character->getName());
 
 if (empty($characters))
 {
@@ -37,7 +38,7 @@ if (empty($characters))
 else
 {
   foreach ($characters as $character)
-    echo '<a href="?frapper=', $character->getId(), '">', htmlspecialchars($character->getName()), '</a> (dégâts : ', $character->getDamages(), ')<br />';
+    echo '<a href="?hit=', $character->getId(), '">', htmlspecialchars($character->getName()), '</a> (dégâts : ', $character->getDamages(), ')<br />';
 }
 ?>
       </p>
@@ -50,7 +51,6 @@ else
     <form action="" method="post">
       <p>
         Nom : <input type="text" name="name" maxlength="50" /><br>
-        <!-- Dégâts : <input type="number" name="damages" min="1" max="5"> -->
         <input type="submit" value="Create character" name="create" />
         <input type="submit" value="Use character" name="use" />
       </p>
@@ -60,6 +60,7 @@ else
 ?>
 
 <?php
+
    include("template/footer.php");
 ?>
 
